@@ -32,41 +32,48 @@
 
 ```mermaid
 classDiagram
-    class GuessTheNumberApp {
-        +main(String[]): void
-    }
+  class GuessTheNumberApp {
+    +main(String[]): void
+  }
 
-    class GameEngine {
-        -int secret
-        -int low
-        -int high
-        -int attempts
-        +processGuess(int): GuessResult
-        +isFinished(): boolean
-    }
+  class GameEngine {
+    -int secret
+    -int low
+    -int high
+    -int attempts
+    +processGuess(int): GuessResult
+    +isFinished(): boolean
+    +getLow(): int
+    +getHigh(): int
+    +getAttempts(): int
+  }
 
-    class GuessResult {
-        +Outcome outcome
-        +String message
-    }
+  class GuessResult {
+    +Outcome outcome
+    +String message
+  }
 
-    enum Outcome {
-        HIGHER
-        LOWER
-        CORRECT
-        INVALID
-    }
+  class Outcome {
+    <<enumeration>>
+    HIGHER
+    LOWER
+    CORRECT
+    INVALID
+  }
 
-    interface SecretNumberProvider {
-        +nextSecret(): int
-    }
+  class SecretNumberProvider {
+    <<interface>>
+    +nextSecret(): int
+  }
 
-    class RandomSecretNumberProvider {
-        +nextSecret(): int
-    }
+  class RandomSecretNumberProvider {
+    -int min
+    -int max
+    +nextSecret(): int
+  }
 
-    GuessTheNumberApp --> GameEngine
-    GuessTheNumberApp --> SecretNumberProvider
-    GameEngine --> GuessResult
-    GuessResult --> Outcome
-    RandomSecretNumberProvider ..|> SecretNumberProvider
+  GuessTheNumberApp --> GameEngine
+  GameEngine --> GuessResult
+  GuessResult --> Outcome
+  GuessTheNumberApp --> SecretNumberProvider
+  RandomSecretNumberProvider ..|> SecretNumberProvider
